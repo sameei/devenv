@@ -13,6 +13,14 @@ networks:
 
 services:
 
+  app:
+    build: .
+    image: app
+    portd:
+      - 10213:4050
+    networks:
+      - pgnet
+
   pgsrv:
     image: postgres:12.1
     restart: always

@@ -4,3 +4,13 @@
 
 .DS_Store
 
+*.class
+*.log
+*.swp
+
+./idea
+app/.idea
+
+target
+project/target
+
