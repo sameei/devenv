@@ -1,0 +1,48 @@
+version: '3.1'
+
+networks:
+  pgnet:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.200.0/24
+        # - subnet: "2001:3984:3989::/64"
+
+services:
+
+  pgsrv:
+    image: postgres:12.1
+    restart: always
+    ports:
+      - 10211:5432
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: letmein
+    networks:
+      - pgnet
+
+  pgadmin:
+    image: dpage/pgadmin4:4.9
+    restart: always
+    ports:
+      - 10212:5454
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mac
+      PGADMIN_DEFAULT_PASSWORD: letmein
+      PGADMIN_LISTEN_PORT: 5454
+    networks:
+      - pgnet
+
+  # adminer:
+  #  image: adminer
+  #  restart: always
+  #  ports:
+  #    - 8080:8080
+
+
+
